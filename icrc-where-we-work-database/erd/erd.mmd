@@ -1,0 +1,87 @@
+erDiagram
+    ARTICLE {
+        bigint article_id PK
+        varchar(255) article_title
+        json article_tags
+        json page_img_list
+        int country_id
+        bigint author_id
+        varchar(15000) content
+        timestamp createtime
+        timestamp modifytime
+    }
+    USER {
+        bigint user_id PK
+        varchar(255) user_name
+        int country_id
+        varchar(255) user_country
+        json page_img_list
+        json artica_list
+        varchar(255) tel
+        varchar(255) email
+        json img_list
+        timestamp createtime
+        timestamp modifytime
+    }
+    CONTINENT {
+        int continent_id PK
+        varchar(255) continent_name
+        json country_id
+        timestamp createtime
+        timestamp modifytime
+    }
+    COUNTRY {
+        int country_id PK
+        int continent_id
+        varchar(255) country_name
+        timestamp createtime
+        timestamp modifytime
+        varchar(255) country_code
+        json icrc_list
+    }
+    IMAGE {
+        bigint img_id PK
+        json img_tags
+        varchar(255) img_url
+        varchar(50) img_type
+        timestamp createtime
+        timestamp modifytime
+    }
+    COUNTRY_INFO {
+        bigint country_info_id PK
+        int country_id
+        json tabs
+        json statistics
+        text desc
+        varchar(255) contact_info
+        json image_list
+        timestamp createtime
+        timestamp modifytime
+    }
+    ICRC {
+        bigint icrc_id PK
+        varchar(255) icrc_name
+        varchar(255) lat
+        varchar(255) lon
+        int country_id
+        timestamp createtime
+        timestamp modifytime
+    }
+
+    EXCHANGE_RATES {
+        varchar(255) currency_code PK
+        double usd_exchange_rate
+        timestamp createtime
+        timestamp modifytime
+    }
+
+    ARTICLE }o--|| USER : "author_id"
+    ARTICLE }o--|| COUNTRY : "country_id"
+    CONTINENT ||--o{ COUNTRY : "continent_id"
+    COUNTRY }o--|| COUNTRY_INFO : "country_id"
+    COUNTRY ||--o{ ICRC : "country_id"
+    USER }o--|| COUNTRY : "country_id"
+    ARTICLE }o--o{ IMAGE: ""
+    USER }o--o{ IMAGE: ""
+    COUNTRY_INFO }o--o{ IMAGE: ""
+    EXCHANGE_RATES  }o--o{ COUNTRY_INFO : ""
